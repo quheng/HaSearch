@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>HaSearch</title>
+</head>
+
+<body>
+	<!-- CSS -->
+	<link href="css/my.css" rel='stylesheet' type='text/css' />
+	<!-- JQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- React JavaScript -->
+	<script src="js/react.js"></script>
+	<script src="js/react-dom.js"></script>
+	<script src="js/browser.min.js"></script>
+	<div id='container'></div>
+	<script type='text/babel'>
+		var MainFrame = React.createClass({
+			render: function(){
+				return(
+					<div>
+						<img src="images/logo.jpg" alt="" />
+						<br/>
+						<input id="keywords" />
+					</div>
+				);			
+			}
+		});
+		ReactDOM.render(
+			<MainFrame/>,
+			document.getElementById('container')
+		);
+	</script>
+</body>
+
+
+
+</html>

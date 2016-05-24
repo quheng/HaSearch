@@ -1,0 +1,13 @@
+#container{
+  margin: auto;
+}
+img{
+  width: auto; 
+  height: auto;
+  padding: 40px;
+  margin: 0 auto;
+}
+input{
+  width: 10%;
+  margin: auto;
+}
