@@ -1,25 +1,41 @@
+#container{
+	height:300px;
+}
 .indexFrame{
-	margin: 0 auto;
-	width:40%;
+	margin: 100px auto;
+	width:50%;
+	min-width: 360px;
+	max-width: 480px;
+}
+.firstLogoDiv{
+	margin:0 auto;
+	width: 80%;
 }
 .firstLogo{
 	margin:0 auto;
 	width: 100%;
 }
 .searchInputWrapper{
-	padding: 5%;
+	padding: 2%;
 	margin:0 auto;
-	width:70%;
+	width:100%;
+
 }
-#keywords{
-	width: 100%;
-	margin: 2px 0px 2px 0px; 
+#keywordsInput{
+	width: 80%;
+	padding: 5px 9px 5px 9px;
+	font-weight: bold;
+	display: inline-block;
 }
 .buttonsWrapper{
-	margin:0 auto;
-	width: 64px;
+	width:20%;
+	height: 40px;
+	padding: 5px 9px 5px 9px;
+	display: inline-block;
 }
-.fancyButtonDiv{
-	width: 100%;
-	margin:8px 0px 8px 0px;
+.myBtn{
+	background-color: white;
+	color: black;
+	border-radius: 4px;
+	border: 2px solid #ccc;
 }
