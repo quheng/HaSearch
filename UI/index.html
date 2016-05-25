@@ -3,26 +3,36 @@
 
 <head>
 	<title>HaSearch</title>
-</head>
-
-<body>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- CSS -->
 	<link href="css/my.css" rel='stylesheet' type='text/css' />
+	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 	<!-- JQuery -->
 	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<!-- React JavaScript -->
 	<script src="js/react.js"></script>
 	<script src="js/react-dom.js"></script>
 	<script src="js/browser.min.js"></script>
+</head>
+
+<body>
 	<div id='container'></div>
 	<script type='text/babel'>
 		var MainFrame = React.createClass({
 			render: function(){
 				return(
-					<div>
-						<img src="images/logo.jpg" alt="" />
-						<br/>
-						<input id="keywords" />
+					<div className="indexFrame">
+						<img className="firstLogo" src="images/logo.jpg" alt="HaSearch"/>
+						<div className="searchInputWrapper">
+							<input id="keywords" />
+							<div className='buttonsWrapper'>
+								<div className='fancyButtonDiv'>
+									<input className="btn" type="button" value="Naive" style={{width:"100%"}}/>
+								</div>
+							</div>
+						</div>
 					</div>
 				);			
 			}

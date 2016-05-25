@@ -1,13 +1,25 @@
-#container{
-  margin: auto;
+.indexFrame{
+	margin: 0 auto;
+	width:40%;
 }
-img{
-  width: auto; 
-  height: auto;
-  padding: 40px;
-  margin: 0 auto;
+.firstLogo{
+	margin:0 auto;
+	width: 100%;
 }
-input{
-  width: 10%;
-  margin: auto;
+.searchInputWrapper{
+	padding: 5%;
+	margin:0 auto;
+	width:70%;
+}
+#keywords{
+	width: 100%;
+	margin: 2px 0px 2px 0px; 
+}
+.buttonsWrapper{
+	margin:0 auto;
+	width: 64px;
+}
+.fancyButtonDiv{
+	width: 100%;
+	margin:8px 0px 8px 0px;
 }
