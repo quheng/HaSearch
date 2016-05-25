@@ -1,5 +1,5 @@
 #container{
-	height:300px;
+
 }
 .indexFrame{
 	margin: 100px auto;
@@ -39,3 +39,28 @@
 	border-radius: 4px;
 	border: 2px solid #ccc;
 }
+.resultFrame{
+	font-size:30px;
+}
+.searchBar{
+
+}
+.smLogo{
+
+}
+.searchBar div{
+	color:grey;
+	padding: 10px;
+	display: inline-block;
+}
+.searchTip{
+	height:20px;
+}
+.resultList{
+
+}
+.resultList li{
+	padding:10px;
+}
+
+
