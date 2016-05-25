@@ -43,7 +43,7 @@
 								<div id="keywordsInput">
 								</div>
 								<div className='buttonsWrapper'>
-									<input className='myBtn' type="button" value="Naive" style={{width:"100%",height:"30px",fontWeight:"bold"}} onClick={this.runSearch}/>
+									<input className="myBtn" type="button" value="Naive" style={{width:"100%",height:"30px",fontWeight:"bold"}} onClick={this.runSearch}/>
 								</div>
 							</div>
 						</div>
@@ -52,12 +52,16 @@
 					return(
 						<div className="resultFrame">
 							<div className="searchBar">
-								<div className="smLogo">HaSearch</div>
-								<div ><input type="text"/></div>
-								<div>button</div>
+								<div className="smLogo"><img className="smLogo" src="images/smLogo.png" alt="HaSearch"/></div>
+								<div ><input id='continueWords' type="text"/></div>
+								<div><button className="myBtn1"><span className="icon">{'续'}</span></button></div>
 							</div>
-							<span className="searchTip">Are you searching XXX?</span>
 							<div className="resultList">
+								<p id="searchTime">About 2 results (0.3 seconds)</p>
+								<span className="searchTip">Did you mean?</span>
+								<br/>
+								<span className="promptWords">h1 h2 h3</span>
+								<hr></hr>
 								<ul>
 									<li>You have come to a wasteland.</li>
 									<li>2333</li>
