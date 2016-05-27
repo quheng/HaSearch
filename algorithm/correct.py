@@ -1,4 +1,6 @@
 import re
+import os
+import sys
 import collections
 
 def words(text):
@@ -10,7 +12,8 @@ def train(features):
         model[f] += 1
     return model
 
-NWORDS = train(words(file('words.txt').read()))
+FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+NWORDS = train(words(file(os.path.join(FILE_PATH, 'words.txt')).read()))
 
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -32,6 +35,7 @@ def correct(word):
     candidates = known([word]) or known(edits1(word)) or known_edits2(word) or [word]
     return max(candidates, key=NWORDS.get)
 
-while True:
-    words = raw_input()
-    print correct(words)
+if __name__ == "__main__":
+    while True:
+        words = raw_input()
+        print correct(words)
