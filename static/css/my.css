@@ -1,25 +1,92 @@
+#container{
+
+}
 .indexFrame{
-	margin: 0 auto;
-	width:40%;
+	margin: 100px auto;
+	width:50%;
+	min-width: 360px;
+	max-width: 480px;
+}
+.firstLogoDiv{
+	margin:0 auto;
+	width: 80%;
 }
 .firstLogo{
 	margin:0 auto;
 	width: 100%;
 }
 .searchInputWrapper{
-	padding: 5%;
+	padding: 2%;
 	margin:0 auto;
-	width:70%;
+	width:100%;
+
 }
-#keywords{
-	width: 100%;
-	margin: 2px 0px 2px 0px; 
+#keywordsInput{
+	width: 80%;
+	padding: 5px 9px 5px 9px;
+	font-weight: bold;
+	display: inline-block;
 }
 .buttonsWrapper{
-	margin:0 auto;
-	width: 64px;
+	width:20%;
+	height: 40px;
+	padding: 5px 9px 5px 9px;
+	display: inline-block;
 }
-.fancyButtonDiv{
-	width: 100%;
-	margin:8px 0px 8px 0px;
+.myBtn{
+	background-color: white;
+	color: black;
+	border-radius: 4px;
+	border: 2px solid #ccc;
+}
+.resultFrame{
+}
+.searchBar{
+	background-color: #f1f1f1;
+}
+.smLogo{
+	height: 50px;
+}
+.searchBar div{
+	color:grey;
+	padding: 3px;
+	display: inline-block;
+}
+#searchTime{
+	font-size: 12px;
+}
+.promptWords{
+	color: #1a0dab;
+	font-weight: bold;
+}
+.searchTip{
+	height: 20px;
+	color: #dd4b39;
+}
+.resultList{
+	width: 50%;
+	margin: 15px 0px 0px 128px;
+	font-size:24px;
+}
+.resultList li{
+	color: #1a0dab;
+	padding:10px;
+}
+.myBtn1{
+	background-color: #136;
+	color: black;
+	border-radius: 4px;
+	border: 2px solid #ccc;
+}
+.icon{
+	font-size:20px;
+	font-family: 黑体;
+	color: white;
+}
+
+#continueWords{
+	font-size:16px;
+	padding: 6px;
+	border: solid 2px #c9c9c9;
+	transition: border 0.3s;
 }

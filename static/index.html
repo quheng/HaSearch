@@ -6,41 +6,207 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- CSS -->
-	<link href="/static/css/my.css" rel='stylesheet' type='text/css' />
-	<link href="/static/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+	<link href="css/my.css" rel='stylesheet' type='text/css' />
+	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+	<link href="css/autocomplete.css" rel='stylesheet' type='text/css' />
 	<!-- JQuery -->
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<!-- React JavaScript -->
-	<script src="/static/js/react.js"></script>
-	<script src="/static/js/react-dom.js"></script>
-	<script src="/static/js/browser.min.js"></script>
+	<script src="js/react.js"></script>
+	<script src="js/react-dom.js"></script>
+	<script src="js/browser.min.js"></script>
+	<!-- AutoSuggest.js -->
+	<script src="js/autosuggest.min.js"></script>
 </head>
 
 <body>
 	<div id='container'></div>
 	<script type='text/babel'>
 		var MainFrame = React.createClass({
+			getInitialState:function(){
+				return{
+					stage:'prepare'
+				}
+			},
+			runSearch: function(){
+				this.setState({stage:'show'});
+			},
 			render: function(){
-				return(
-					<div className="indexFrame">
-						<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
-						<div className="searchInputWrapper">
-							<input id="keywords" />
-							<div className='buttonsWrapper'>
-								<div className='fancyButtonDiv'>
-									<input className="btn" type="button" value="Naive" style={{width:"100%"}}/>
+				if(this.state.stage==='prepare'){
+					return(
+						<div className="indexFrame">
+							<div className="firstLogoDiv">
+								<img className="firstLogo" src="images/logo.jpg" alt="HaSearch"/>
+							</div>
+							<div className="searchInputWrapper">
+								<div id="keywordsInput">
+								</div>
+								<div className='buttonsWrapper'>
+									<input className="myBtn" type="button" value="Naive" style={{width:"100%",height:"30px",fontWeight:"bold"}} onClick={this.runSearch}/>
 								</div>
 							</div>
 						</div>
-					</div>
-				);
+					);
+				}else{
+					return(
+						<div className="resultFrame">
+							<div className="searchBar">
+								<div className="smLogo"><img className="smLogo" src="images/smLogo.png" alt="HaSearch"/></div>
+								<div ><input id='continueWords' type="text"/></div>
+								<div><button className="myBtn1"><span className="icon">{'续'}</span></button></div>
+							</div>
+							<div className="resultList">
+								<p id="searchTime">About 2 results (0.3 seconds)</p>
+								<span className="searchTip">Did you mean?</span>
+								<br/>
+								<span className="promptWords">h1 h2 h3</span>
+								<hr></hr>
+								<ul>
+									<li>You have come to a wasteland.</li>
+									<li>2333</li>
+								</ul>
+							</div>
+						</div>
+					);
+				}
+
 			}
 		});
 		ReactDOM.render(
 			<MainFrame/>,
 			document.getElementById('container')
 		);
+		const languages = [
+		  {
+		    name: 'C',
+		    year: 1972
+		  },
+		  {
+		    name: 'C#',
+		    year: 2000
+		  },
+		  {
+		    name: 'C++',
+		    year: 1983
+		  },
+		  {
+		    name: 'Clojure',
+		    year: 2007
+		  },
+		  {
+		    name: 'Elm',
+		    year: 2012
+		  },
+		  {
+		    name: 'Go',
+		    year: 2009
+		  },
+		  {
+		    name: 'Haskell',
+		    year: 1990
+		  },
+		  {
+		    name: 'Java',
+		    year: 1995
+		  },
+		  {
+		    name: 'Javascript',
+		    year: 1995
+		  },
+		  {
+		    name: 'Perl',
+		    year: 1987
+		  },
+		  {
+		    name: 'PHP',
+		    year: 1995
+		  },
+		  {
+		    name: 'Python',
+		    year: 1991
+		  },
+		  {
+		    name: 'Ruby',
+		    year: 1995
+		  },
+		  {
+		    name: 'Scala',
+		    year: 2003
+		  }
+		];
+
+		function escapeRegexCharacters(str) {
+		  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		}
+
+		function getSuggestions(value) {
+		  const escapedValue = escapeRegexCharacters(value.trim());
+		  
+		  if (escapedValue === '') {
+		    return [];
+		  }
+
+		  const regex = new RegExp('^' + escapedValue, 'i');
+
+		  return languages.filter(language => regex.test(language.name));
+		}
+
+		function getSuggestionValue(suggestion) {
+		  return suggestion.name;
+		}
+
+		function renderSuggestion(suggestion) {
+		  return (
+		    <span>{suggestion.name}</span>
+		  );
+		}
+
+		class App extends React.Component {
+		  constructor() {
+		    super();
+
+		    this.state = {
+		      value: '',
+		      suggestions: getSuggestions('')
+		    };
+		    
+		    this.onChange = this.onChange.bind(this);
+		    this.onSuggestionsUpdateRequested = this.onSuggestionsUpdateRequested.bind(this);
+		  }
+
+		  onChange(event, { newValue, method }) {
+		    this.setState({
+		      value: newValue
+		    });
+		  }
+		  
+		  onSuggestionsUpdateRequested({ value }) {
+		    this.setState({
+		      suggestions: getSuggestions(value)
+		    });
+		  }
+
+		  render() {
+		    const { value, suggestions } = this.state;
+		    const inputProps = {
+		      placeholder: "Type your desire",
+		      value,
+		      onChange: this.onChange
+		    };
+
+		    return (
+		      <Autosuggest suggestions={suggestions}
+		                   onSuggestionsUpdateRequested={this.onSuggestionsUpdateRequested}
+		                   getSuggestionValue={getSuggestionValue}
+		                   renderSuggestion={renderSuggestion}
+		                   inputProps={inputProps} />
+		    );
+		  }
+		}
+
+		ReactDOM.render(<App />, document.getElementById('keywordsInput'));
+
 	</script>
 </body>
 </html>
