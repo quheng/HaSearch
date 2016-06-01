@@ -39,4 +39,5 @@ def build(path):
 
 if __name__ == "__main__":
     inverse_index = build(r"../data/")
-    cPickle.dump(inverse_index, gzip.open("inverse_index.p", "wb"))
+    # cPickle.dump(inverse_index, gzip.open("inverse_index.p", "wb"))
+    cPickle.dump(inverse_index, open("inverse_index.p", "wb"))

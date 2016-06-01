@@ -2,7 +2,7 @@ import re
 import os
 import sys
 import collections
-
+from index import index
 def words(text):
     return re.findall('[a-z]+', text.lower())
 
@@ -36,6 +36,7 @@ def correct(word):
     return max(candidates, key=NWORDS.get)
 
 if __name__ == "__main__":
+    print index["a"]
     while True:
         words = raw_input()
         print correct(words)
