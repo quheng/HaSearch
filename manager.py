@@ -29,3 +29,20 @@ def correctwords():
         return jsonify(res)
     else:
         abort(400)
+
+from algorithm import VSM
+vsm = VSM.VSM(100)
+@app.route('/api/search', methods = ['GET'])
+def searchwords():
+    word = request.args.get('word')
+    if word is not None:
+        result = vsm.search(word, 100)
+        res = {}
+        if (word == result):
+            res['status'] = 0
+        else:
+            res['status'] = 1
+        res['res'] = result
+        return jsonify(res)
+    else:
+        abort(400)
