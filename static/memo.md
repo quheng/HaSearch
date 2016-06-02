@@ -8,5 +8,8 @@ http://www.cnblogs.com/jaiho/archive/2011/02/28/js_autocomplete.html
 
 http://www.htmleaf.com/jQuery/Form/201502251419.html
 
-Baidu API
+* Baidu API
 http://www.bubuko.com/infodetail-769418.html
+
+* Autosuggest
+https://www.npmjs.com/package/react-autosuggest
