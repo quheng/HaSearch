@@ -23,10 +23,20 @@
 		var MainFrame = React.createClass({
 			getInitialState:function(){
 				return{
-					stage:'prepare'
+					stage:'prepare',
+					input:'',
+					correct:''
 				}
 			},
 			runSearch: function(){
+				$.get('/api/correct?word='+this.state.input).done(
+					function(result){
+						var res = JSON.parse(res);
+						if(res.status===1){
+							this.setState(correct:res.correct);
+						}
+					}.bind(this)
+				)
 				this.setState({stage:'show'});
 			},
 			render: function(){
