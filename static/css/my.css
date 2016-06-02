@@ -1,6 +1,12 @@
 #container{
 
 }
+#keywordsInput{
+	width: 80%;
+	padding: 5px 9px 5px 9px;
+	font-weight: bold;
+	display: inline-block;
+}
 .indexFrame{
 	margin: 100px auto;
 	width:50%;
@@ -19,13 +25,6 @@
 	padding: 2%;
 	margin:0 auto;
 	width:100%;
-
-}
-#keywordsInput{
-	width: 80%;
-	padding: 5px 9px 5px 9px;
-	font-weight: bold;
-	display: inline-block;
 }
 .buttonsWrapper{
 	width:20%;
@@ -45,7 +44,9 @@
 	background-color: #f1f1f1;
 }
 .smLogo{
-	height: 50px;
+	height: 38px;
+	padding: 4px 4px 4px 4px;
+	margin-left: 8px;
 }
 .searchBar div{
 	color:grey;
@@ -65,28 +66,42 @@
 }
 .resultList{
 	width: 50%;
-	margin: 15px 0px 0px 128px;
+	margin: 20px 0px 0px 100px;
 	font-size:24px;
 }
 .resultList li{
 	color: #1a0dab;
 	padding:10px;
 }
+.myBtn{
+	width: 100%;
+	height: 30px;
+	font-weight: bold;
+}
 .myBtn1{
-	background-color: #136;
-	color: black;
-	border-radius: 4px;
+	background-color: #248;
+	color: white;
+	font-size:18px;
+	height: 38px;
+	width: 40px;
+	border-radius: 3px;
 	border: 2px solid #ccc;
 }
 .icon{
 	font-size:20px;
-	font-family: 黑体;
 	color: white;
 }
-
-#continueWords{
+.continueWords{
 	font-size:16px;
-	padding: 6px;
-	border: solid 2px #c9c9c9;
-	transition: border 0.3s;
+	padding-left: 5px;
+	border: solid 1px #c9c9c9;
+	height: 35px;
+	min-width: 400px;
+}
+.initWords{
+	font-size: 16px;
+	border-radius: 3px;
+	width: 100%;
+	border: 1px solid #ccc;
+	padding-left: 5px;
 }

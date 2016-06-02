@@ -11,18 +11,16 @@
 	<link href="static/css/autocomplete.css" rel='stylesheet' type='text/css' />
 	<!-- JQuery -->
 	<script src="static/js/jquery.min.js"></script>
-	<script src="static/js/bootstrap.min.js"></script>
 	<!-- React JavaScript -->
 	<script src="static/js/react.js"></script>
 	<script src="static/js/react-dom.js"></script>
 	<script src="static/js/browser.min.js"></script>
-	<!-- AutoSuggest.js -->
-	<script src="static/js/autosuggest.min.js"></script>
 </head>
 
 <body>
 	<div id='container'></div>
 	<script type='text/babel'>
+		const enterKeycode = 13;
 		var MainFrame = React.createClass({
 			getInitialState:function(){
 				return{
@@ -43,7 +41,7 @@
 								<div id="keywordsInput">
 								</div>
 								<div className='buttonsWrapper'>
-									<input className="myBtn" type="button" value="Naive" style={{width:"100%",height:"30px",fontWeight:"bold"}} onClick={this.runSearch}/>
+									<input className="myBtn" type="button" value="Row" onClick={this.runSearch}/>
 								</div>
 							</div>
 						</div>
@@ -53,8 +51,8 @@
 						<div className="resultFrame">
 							<div className="searchBar">
 								<div className="smLogo"><img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/></div>
-								<div ><input id='continueWords' type="text"/></div>
-								<div><button className="myBtn1"><span className="icon">{'续'}</span></button></div>
+								<div><input className='continueWords' type="text"/></div>
+								<div><input type="button" className="myBtn1" value="H"></input></div>
 							</div>
 							<div className="resultList">
 								<p id="searchTime">About 2 results (0.3 seconds)</p>
@@ -70,143 +68,17 @@
 						</div>
 					);
 				}
-
 			}
 		});
-		ReactDOM.render(
-			<MainFrame/>,
-			document.getElementById('container')
-		);
-		const languages = [
-		  {
-		    name: 'C',
-		    year: 1972
-		  },
-		  {
-		    name: 'C#',
-		    year: 2000
-		  },
-		  {
-		    name: 'C++',
-		    year: 1983
-		  },
-		  {
-		    name: 'Clojure',
-		    year: 2007
-		  },
-		  {
-		    name: 'Elm',
-		    year: 2012
-		  },
-		  {
-		    name: 'Go',
-		    year: 2009
-		  },
-		  {
-		    name: 'Haskell',
-		    year: 1990
-		  },
-		  {
-		    name: 'Java',
-		    year: 1995
-		  },
-		  {
-		    name: 'Javascript',
-		    year: 1995
-		  },
-		  {
-		    name: 'Perl',
-		    year: 1987
-		  },
-		  {
-		    name: 'PHP',
-		    year: 1995
-		  },
-		  {
-		    name: 'Python',
-		    year: 1991
-		  },
-		  {
-		    name: 'Ruby',
-		    year: 1995
-		  },
-		  {
-		    name: 'Scala',
-		    year: 2003
-		  }
-		];
+		var AutoSuggest = React.createClass({
+			render: function(){
+				return(<input className='initWords' type="text"/>);
+			}
+		});
 
-		function escapeRegexCharacters(str) {
-		  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-		}
-
-		function getSuggestions(value) {
-		  const escapedValue = escapeRegexCharacters(value.trim());
-		  
-		  if (escapedValue === '') {
-		    return [];
-		  }
-
-		  const regex = new RegExp('^' + escapedValue, 'i');
-
-		  return languages.filter(language => regex.test(language.name));
-		}
-
-		function getSuggestionValue(suggestion) {
-		  return suggestion.name;
-		}
-
-		function renderSuggestion(suggestion) {
-		  return (
-		    <span>{suggestion.name}</span>
-		  );
-		}
-
-		class App extends React.Component {
-		  constructor() {
-		    super();
-
-		    this.state = {
-		      value: '',
-		      suggestions: getSuggestions('')
-		    };
-		    
-		    this.onChange = this.onChange.bind(this);
-		    this.onSuggestionsUpdateRequested = this.onSuggestionsUpdateRequested.bind(this);
-		  }
-
-		  onChange(event, { newValue, method }) {
-		    this.setState({
-		      value: newValue
-		    });
-		  }
-		  
-		  onSuggestionsUpdateRequested({ value }) {
-		    this.setState({
-		      suggestions: getSuggestions(value)
-		    });
-		  }
-
-		  render() {
-		    const { value, suggestions } = this.state;
-		    const inputProps = {
-		      placeholder: "Type your desire",
-		      value,
-		      onChange: this.onChange
-		    };
-
-		    return (
-		      <Autosuggest suggestions={suggestions}
-		                   onSuggestionsUpdateRequested={this.onSuggestionsUpdateRequested}
-		                   getSuggestionValue={getSuggestionValue}
-		                   renderSuggestion={renderSuggestion}
-		                   inputProps={inputProps} />
-		    );
-		  }
-		}
-
-		ReactDOM.render(<App />, document.getElementById('keywordsInput'));
-
+		//reder
+		ReactDOM.render(<MainFrame/>,document.getElementById('container'));
+		ReactDOM.render(<AutoSuggest />, document.getElementById('keywordsInput'));
 	</script>
 </body>
 </html>
