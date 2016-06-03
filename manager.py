@@ -59,8 +59,8 @@ def correctSearch():
 
 @app.route('/api/search', methods = ['GET'])
 def searchwords():
-    word = request.args.get('word')
-    query = base64.b64decode(word).split(' ')
+    words = request.args.get('words')
+    query = base64.b64decode(words).split(' ')
     query = ' '.join(query)
     result = vsm.search(query, 100)
     res = {}

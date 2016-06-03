@@ -73,7 +73,15 @@
 				this.setState({orig:input});
 			},
 			orgSearch: function(){
-
+				var base64 = btoa(this.state.orig);
+				var beginT = new Date(); 
+				$.get('/api/search?words='+base64).done(
+					function(res){
+						var endT = new Date();
+						var cost = (endT.getTime() - beginT.getTime())/1000;
+						this.setState({resList:res.result,time:cost,correct:''});
+					}.bind(this)
+				)
 			},
 			tip: function(){
 				if(this.state.correct!==''){
