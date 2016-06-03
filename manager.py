@@ -36,9 +36,8 @@ def correctwords():
 
 @app.route('/api/correctsearch', methods = ['GET'])
 def correctSearch():
-    words = request.args.get('words')
-    words = base64.b64decode(words).split(' ')
-    print words
+    original = request.args.get('words')
+    words = base64.b64decode(original).split(' ')
     status = 0       # status = 1 means that the words has has some errors
 
     query = []
@@ -55,6 +54,7 @@ def correctSearch():
     res["status"] = status
     res["query"] = query
     res["result"] = result
+    res["original"] = original
     return jsonify(res)
 
 @app.route('/api/search', methods = ['GET'])
