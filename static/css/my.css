@@ -68,13 +68,22 @@
 #searchTime{
 	font-size: 12px;
 }
+.searchTip{
+	height: 20px;
+	font-weight:bold;
+}
 .promptWords{
 	color: #1a0dab;
 	font-weight: bold;
+	font-weight:bold;
 }
-.searchTip{
-	height: 20px;
-	color: #dd4b39;
+.stillSearch{
+	font-size:16px;
+}
+.origSearch{
+	color: #1a0dab;
+	font-size:16px;
+	cursor:pointer;
 }
 .resultList{
 	width: 50%;
@@ -95,17 +104,16 @@
 	width: 100%;
 	border: 1px solid #ccc;
 	padding-left: 5px;
-	autofocus:'autofocus';
-}
-.resultChose a{
-	display: inline-block;
-	margin-right: 15px;
-	cursor:default;
-	font-size: 16px;
 }
 .chosedItem{
-	color:#b23aee;
+	display: inline-block;
+	margin-right: 15px;
+	font-size: 16px;
 }
 .unchosedItem{
+	display: inline-block;
+	margin-right: 15px;
+	cursor:pointer;
+	font-size: 16px;
 	color:#f40;
 }

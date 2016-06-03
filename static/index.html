@@ -46,7 +46,9 @@
 					correct:'',
 					input:'',
 					time:0,
-					resList:[]
+					resList:[],
+					orig:'',
+					show:true
 				}
 			},
 			runSearch: function(input){
@@ -68,14 +70,20 @@
 				if(this.state.stage==='prepare'){
 					this.setState({stage:'show',input:input});
 				}
+				this.setState({orig:input});
+			},
+			orgSearch: function(){
+
 			},
 			tip: function(){
 				if(this.state.correct!==''){
 					return(
 						<div>
-							<span className="searchTip">Did you mean?</span>
-							<br/>
-							<span className="promptWords">{this.state.correct}</span>
+							<span className="searchTip">Showing results for </span>
+							<span className="promptWords"><i>{this.state.correct}</i></span>
+							<br></br>
+							<span className="stillSearch">Search instead for </span>
+							<a className="origSearch" onClick={this.orgSearch}>{this.state.orig}</a>
 						</div>
 					);
 				}else{
@@ -92,7 +100,7 @@
 							<div className="firstLogoDiv">
 								<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
 							</div>
-							<AutoSuggest runSearch={this.runSearch} input={this.state.input}/>
+							<AutoSuggest runSearch={this.runSearch} input={this.state.input} focus='true'/>
 						</div>
 					);
 				}else{
@@ -110,7 +118,7 @@
 							<div className="searchBar">
 								<div className="smLogo"><img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/></div>
 								<div id='another'>
-									<AutoSuggest runSearch={this.runSearch}  input={this.state.input}/>
+									<AutoSuggest runSearch={this.runSearch}  input={this.state.input} foucus='false'/>
 								</div>
 							</div>
 							<div className="resultList">
@@ -123,7 +131,7 @@
 									{
 										arr.map(function(i){
 											if(i===chose){
-												return(<a key={i} className='chosedItem'>{i}</a>);
+												return(<p key={i} className='chosedItem'>{i}</p>);
 											}else{
 												return(<a key={i} className='unchosedItem' onClick={changeChose.bind(null,i)}>{i}</a>);
 											}
@@ -157,7 +165,7 @@
 				return(
 					<div className="searchInputWrapper">
 						<div id="keywordsInput">
-							<input className='initWords' type="text" onKeyDown={this.onKeyDown} value={this.state.input} onChange={this.onChange} autoFocus='true'/>
+							<input className='initWords' type="text" onKeyDown={this.onKeyDown} value={this.state.input} onChange={this.onChange} autoFocus={this.props.focus}/>
 						</div>
 						<div className='buttonsWrapper'>
 							<input className="myBtn" type="button" value="Row" onClick={this.rowClick}/>
