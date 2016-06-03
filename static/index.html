@@ -19,6 +19,7 @@
 <body>
 	<div id='container'></div>
 	<script type='text/babel'>
+		'usestrict';
 		const enterKeycode = 13;
 
 		var Results = React.createClass({
@@ -41,7 +42,7 @@
 			getInitialState:function(){
 				return{
 					stage:'prepare',
-					input:'',
+					chose:1,
 					correct:'',
 					time:0,
 					resList:[]
@@ -49,15 +50,18 @@
 			},
 			runSearch: function(input){
 				var base64 = btoa(input);
+				var beginT = new Date(); 
 				$.get('/api/correctsearch?words='+base64).done(
 					function(res){
-						console.log(res);
+						var endT = new Date();
+						//console.log(res);
 						if(res.status===1){
 							this.setState({correct:res.query});
 						}else {
 							this.setState({correct:''});
 						}
-						this.setState({resList:res.result});
+						var cost = (endT.getTime() - beginT.getTime())/1000;
+						this.setState({resList:res.result,time:cost});
 					}.bind(this)
 				)
 				this.setState({stage:'show'});
@@ -75,6 +79,9 @@
 					return(<div/>);
 				}
 			},
+			changeChose:function(value){
+				this.setState({chose:value});
+			},
 			render: function(){
 				if(this.state.stage==='prepare'){
 					return(
@@ -86,12 +93,19 @@
 						</div>
 					);
 				}else{
+					// some caculation
+					var chose = this.state.chose;
+					var end = this.state.chose*10;
+					var data = this.state.resList.slice(end-10,end);
+					var num = Math.ceil(this.state.resList.length/10);
+					var arr = [];
+					var changeChose = this.changeChose;
+					for(var i=1;i<=num;i++)
+						arr.push(i);
 					return(
 						<div className="resultFrame">
 							<div className="searchBar">
 								<div className="smLogo"><img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/></div>
-								{/*<div><input className='continueWords' type="text"/></div>
-								<div><input type="button" className="myBtn1" value="H"></input></div>*/}
 								<div id='another'>
 									<AutoSuggest runSearch={this.runSearch}/>
 								</div>
@@ -100,7 +114,19 @@
 								<p id="searchTime">About {this.state.resList.length||''} results ({this.state.time} seconds)</p>
 								{this.tip()}
 								<hr></hr>
-								<Results data={this.state.resList}/>
+								<Results data={data}/>
+								<hr></hr>
+								<div className="resultChose">
+									{
+										arr.map(function(i){
+											if(i===chose){
+												return(<a key={i} className='chosedItem'>{i}</a>);
+											}else{
+												return(<a key={i} className='unchosedItem' onClick={changeChose.bind(null,i)}>{i}</a>);
+											}
+										})
+									}
+								</div>
 							</div>
 						</div>
 					);
