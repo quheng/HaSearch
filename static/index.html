@@ -46,7 +46,8 @@
 					correct:'',
 					input:'',
 					time:0,
-					resList:[]
+					resList:[],
+					show:true
 				}
 			},
 			runSearch: function(input){
@@ -92,7 +93,7 @@
 							<div className="firstLogoDiv">
 								<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
 							</div>
-							<AutoSuggest runSearch={this.runSearch} input={this.state.input}/>
+							<AutoSuggest runSearch={this.runSearch} input={this.state.input} focus='true'/>
 						</div>
 					);
 				}else{
@@ -110,7 +111,7 @@
 							<div className="searchBar">
 								<div className="smLogo"><img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/></div>
 								<div id='another'>
-									<AutoSuggest runSearch={this.runSearch}  input={this.state.input}/>
+									<AutoSuggest runSearch={this.runSearch}  input={this.state.input} foucus='false'/>
 								</div>
 							</div>
 							<div className="resultList">
@@ -157,7 +158,7 @@
 				return(
 					<div className="searchInputWrapper">
 						<div id="keywordsInput">
-							<input className='initWords' type="text" onKeyDown={this.onKeyDown} value={this.state.input} onChange={this.onChange} autoFocus='true'/>
+							<input className='initWords' type="text" onKeyDown={this.onKeyDown} value={this.state.input} onChange={this.onChange} autoFocus={this.props.focus}/>
 						</div>
 						<div className='buttonsWrapper'>
 							<input className="myBtn" type="button" value="Row" onClick={this.rowClick}/>
