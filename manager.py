@@ -21,11 +21,11 @@ def index():
 
 @app.route('/api/correct', methods = ['GET'])
 def correctwords():
-    word = request.args.get('word')
-    if word is not None:
-        result = correct.correct(word)
+    words = request.args.get('words')
+    if words is not None:
+        result = correct.correct(words)
         res = {}
-        if (word == result):
+        if (words == result):
             res['status'] = 0
         else:
             res['status'] = 1
@@ -59,8 +59,8 @@ def correctSearch():
 
 @app.route('/api/search', methods = ['GET'])
 def searchwords():
-    word = request.args.get('word')
-    query = base64.b64decode(word).split(' ')
+    words = request.args.get('words')
+    query = base64.b64decode(words).split(' ')
     query = ' '.join(query)
     result = vsm.search(query, 100)
     res = {}
