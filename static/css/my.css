@@ -95,6 +95,7 @@
 	width: 100%;
 	border: 1px solid #ccc;
 	padding-left: 5px;
+	autofocus:'autofocus';
 }
 .resultChose a{
 	display: inline-block;

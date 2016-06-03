@@ -44,6 +44,7 @@
 					stage:'prepare',
 					chose:1,
 					correct:'',
+					input:'',
 					time:0,
 					resList:[]
 				}
@@ -64,7 +65,9 @@
 						this.setState({resList:res.result,time:cost});
 					}.bind(this)
 				)
-				this.setState({stage:'show'});
+				if(this.state.stage==='prepare'){
+					this.setState({stage:'show',input:input});
+				}
 			},
 			tip: function(){
 				if(this.state.correct!==''){
@@ -89,7 +92,7 @@
 							<div className="firstLogoDiv">
 								<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
 							</div>
-							<AutoSuggest runSearch={this.runSearch}/>
+							<AutoSuggest runSearch={this.runSearch} input={this.state.input}/>
 						</div>
 					);
 				}else{
@@ -107,7 +110,7 @@
 							<div className="searchBar">
 								<div className="smLogo"><img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/></div>
 								<div id='another'>
-									<AutoSuggest runSearch={this.runSearch}/>
+									<AutoSuggest runSearch={this.runSearch}  input={this.state.input}/>
 								</div>
 							</div>
 							<div className="resultList">
@@ -136,7 +139,7 @@
 		var AutoSuggest = React.createClass({
 			getInitialState:function(){
 				return{
-					input:''
+					input:this.props.input
 				};
 			},
 			onKeyDown:function(event){
@@ -154,7 +157,7 @@
 				return(
 					<div className="searchInputWrapper">
 						<div id="keywordsInput">
-							<input className='initWords' type="text" onKeyDown={this.onKeyDown} onChange={this.onChange} autofocus='autofocus'/>
+							<input className='initWords' type="text" onKeyDown={this.onKeyDown} value={this.state.input} onChange={this.onChange} autoFocus='true'/>
 						</div>
 						<div className='buttonsWrapper'>
 							<input className="myBtn" type="button" value="Row" onClick={this.rowClick}/>
