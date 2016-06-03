@@ -12,7 +12,7 @@ class VSM:
             result = (1 + math.log(frequence, 2)) * math.log(float(self.N) / df, 2)
         return result
 
-    def __init__(self, Number):
+    def __init__(self, Number=21576):
         # initialize using the inverse index, and total documents number.
         self.N = Number
         import index
@@ -26,16 +26,17 @@ class VSM:
         for docID in self.Lengths:
             self.Lengths[docID] = self.Lengths[docID]**0.5
 
-    def search(self, query, K):
+    def search(self, query, K=21576):
         # input a query and disired number of top results. ouput a array of docID
         queryWords = query.split(" ")
         Scores = {}
         for word in queryWords:
-            for record in self.inverse_index[word]:
-                if record["doc"] in Scores:
-                    Scores[record["doc"]] += self._calcWtd(record["frequence"], len(self.inverse_index[word]))
-                else:
-                    Scores[record["doc"]] = self._calcWtd(record["frequence"], len(self.inverse_index[word]))
+            if word in self.inverse_index:
+                for record in self.inverse_index[word]:
+                    if record["doc"] in Scores:
+                        Scores[record["doc"]] += self._calcWtd(record["frequence"], len(self.inverse_index[word]))
+                    else:
+                        Scores[record["doc"]] = self._calcWtd(record["frequence"], len(self.inverse_index[word]))
         for docID in Scores:
             Scores[docID] /= float(self.Lengths[docID])
         sort = sorted(Scores.items(), key = lambda e: e[1], reverse = True)
