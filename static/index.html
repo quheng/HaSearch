@@ -31,7 +31,7 @@
 									{value}
 								</li>
 							);
-						});
+						})
 					}</ul>
 				);
 			}
@@ -48,12 +48,14 @@
 				}
 			},
 			runSearch: function(input){
-				$.get('/api/correct?word='+this.state.input).done(
-					function(result){
-						var res = JSON.parse(res);
+				console.log('2333');
+				var base64 = btoa('words='+input);
+				$.get('/api/correct?word='+base64).done(
+					function(res){
 						if(res.status===1){
-							this.setState(correct:res.correct);
+							this.setState({correct:res.query});
 						}
+						this.setState({resList:res.results});
 					}.bind(this)
 				)
 				this.setState({stage:'show'});
@@ -66,7 +68,9 @@
 								<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
 							</div>
 							<div className="searchInputWrapper">
-								<AutoSuggest runSearch={this.runSearch}/>
+								<div id="keywordsInput">
+									<AutoSuggest runSearch={this.runSearch}/>
+								</div>
 								<div className='buttonsWrapper'>
 									<input className="myBtn" type="button" value="Row" onClick={this.runSearch}/>
 								</div>
@@ -101,7 +105,7 @@
 				};
 			},
 			onKeyDown:function(event){
-				if(event.KeyCode==13){
+				if(event.keyCode===13){
 					this.props.runSearch(this.state.input);
 				}
 			},
