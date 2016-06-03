@@ -117,3 +117,19 @@
 	font-size: 16px;
 	color:#f40;
 }
+#suggestList{
+	list-style-type:none;
+	margin-left:10px;
+	padding:0px;
+	border: 1px solid #aaa;
+	width:70%;
+	min-width:
+}
+.suggestItem{
+	cursor:pointer;
+	font-size:16px;
+}
+#chosedItem{
+    background-color: #bbb;
+    color: black;
+}
