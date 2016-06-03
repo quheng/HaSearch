@@ -2,7 +2,8 @@
 
 }
 #another{
-	width:500px;
+	padding-left:100px;
+	width:650px;
 }
 #keywordsInput{
 	width: 80%;
@@ -123,7 +124,8 @@
 	padding:0px;
 	border: 1px solid #aaa;
 	width:70%;
-	min-width:
+	min-width:200px;
+	background-color:white;
 }
 .suggestItem{
 	cursor:pointer;
@@ -132,4 +134,9 @@
 #chosedItem{
     background-color: #bbb;
     color: black;
+}
+.logoVictim{
+	height: 40px;
+	background-color: #f1f1f1;
+	display:inline;
 }
