@@ -20,15 +20,34 @@
 	<div id='container'></div>
 	<script type='text/babel'>
 		const enterKeycode = 13;
+
+		var Results = React.createClass({
+			render: function(){
+				return(
+					<ul>{
+						this.props.data.map(function(value,i){
+							return(
+								<li key={i}>
+									{value}
+								</li>
+							);
+						});
+					}</ul>
+				);
+			}
+		});
+
 		var MainFrame = React.createClass({
 			getInitialState:function(){
 				return{
 					stage:'prepare',
 					input:'',
-					correct:''
+					correct:'',
+					time:0,
+					resList:[]
 				}
 			},
-			runSearch: function(){
+			runSearch: function(input){
 				$.get('/api/correct?word='+this.state.input).done(
 					function(result){
 						var res = JSON.parse(res);
@@ -47,8 +66,7 @@
 								<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
 							</div>
 							<div className="searchInputWrapper">
-								<div id="keywordsInput">
-								</div>
+								<AutoSuggest runSearch={this.runSearch}/>
 								<div className='buttonsWrapper'>
 									<input className="myBtn" type="button" value="Row" onClick={this.runSearch}/>
 								</div>
@@ -64,15 +82,12 @@
 								<div><input type="button" className="myBtn1" value="H"></input></div>
 							</div>
 							<div className="resultList">
-								<p id="searchTime">About 2 results (0.3 seconds)</p>
+								<p id="searchTime">About {this.state.resList.length} results ({this.state.time} seconds)</p>
 								<span className="searchTip">Did you mean?</span>
 								<br/>
-								<span className="promptWords">h1 h2 h3</span>
+								<span className="promptWords">{this.state.correct}</span>
 								<hr></hr>
-								<ul>
-									<li>You have come to a wasteland.</li>
-									<li>2333</li>
-								</ul>
+								<Results data={this.state.resList}/>
 							</div>
 						</div>
 					);
@@ -80,14 +95,26 @@
 			}
 		});
 		var AutoSuggest = React.createClass({
+			getInitialState:function(){
+				return{
+					input:''
+				};
+			},
+			onKeyDown:function(event){
+				if(event.KeyCode==13){
+					this.props.runSearch(this.state.input);
+				}
+			},
+			onChange:function(event){
+				this.setState({input:event.target.value});
+			},
 			render: function(){
-				return(<input className='initWords' type="text"/>);
+				return(<input className='initWords' type="text" onKeyDown={this.onKeyDown} onChange={this.onChange}/>);
 			}
 		});
 
-		//reder
+		// render
 		ReactDOM.render(<MainFrame/>,document.getElementById('container'));
-		ReactDOM.render(<AutoSuggest />, document.getElementById('keywordsInput'));
 	</script>
 </body>
 </html>
