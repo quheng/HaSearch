@@ -11,7 +11,7 @@ import base64
 from algorithm import VSM
 from algorithm import correct
 
-vsm = VSM.VSM(100)
+vsm = VSM.VSM(21576)
 app = Flask(__name__)
 
 @app.route('/')
