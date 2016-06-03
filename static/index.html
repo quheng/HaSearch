@@ -29,7 +29,7 @@
 						this.props.data.map(function(value,i){
 							return(
 								<li key={i}>
-									{value}
+									<a href={"static/Reuters/"+value+".html"}  target="_blank">{value}</a>
 								</li>
 							);
 						})
