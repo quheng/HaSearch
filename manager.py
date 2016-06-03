@@ -60,10 +60,9 @@ def correctSearch():
 @app.route('/api/search', methods = ['GET'])
 def searchwords():
     word = request.args.get('word')
-    if word is not None:
-        result = vsm.search(word, 100)
-        res = {}
-        res["result"] = result
-        return jsonify(res)
-    else:
-        abort(400)
+    query = base64.b64decode(word).split(' ')
+    query = ' '.join(query)
+    result = vsm.search(query, 100)
+    res = {}
+    res["result"] = result
+    return jsonify(res)
