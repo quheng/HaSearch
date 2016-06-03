@@ -48,17 +48,32 @@
 				}
 			},
 			runSearch: function(input){
-				console.log('2333');
-				var base64 = btoa('words='+input);
-				$.get('/api/correct?word='+base64).done(
+				var base64 = btoa(input);
+				$.get('/api/correctsearch?words='+base64).done(
 					function(res){
+						console.log(res);
 						if(res.status===1){
 							this.setState({correct:res.query});
+						}else {
+							this.setState({correct:''});
 						}
-						this.setState({resList:res.results});
+						this.setState({resList:res.result});
 					}.bind(this)
 				)
 				this.setState({stage:'show'});
+			},
+			tip: function(){
+				if(this.state.correct!==''){
+					return(
+						<div>
+							<span className="searchTip">Did you mean?</span>
+							<br/>
+							<span className="promptWords">{this.state.correct}</span>
+						</div>
+					);
+				}else{
+					return(<div/>);
+				}
 			},
 			render: function(){
 				if(this.state.stage==='prepare'){
@@ -67,14 +82,7 @@
 							<div className="firstLogoDiv">
 								<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
 							</div>
-							<div className="searchInputWrapper">
-								<div id="keywordsInput">
-									<AutoSuggest runSearch={this.runSearch}/>
-								</div>
-								<div className='buttonsWrapper'>
-									<input className="myBtn" type="button" value="Row" onClick={this.runSearch}/>
-								</div>
-							</div>
+							<AutoSuggest runSearch={this.runSearch}/>
 						</div>
 					);
 				}else{
@@ -82,14 +90,15 @@
 						<div className="resultFrame">
 							<div className="searchBar">
 								<div className="smLogo"><img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/></div>
-								<div><input className='continueWords' type="text"/></div>
-								<div><input type="button" className="myBtn1" value="H"></input></div>
+								{/*<div><input className='continueWords' type="text"/></div>
+								<div><input type="button" className="myBtn1" value="H"></input></div>*/}
+								<div id='another'>
+									<AutoSuggest runSearch={this.runSearch}/>
+								</div>
 							</div>
 							<div className="resultList">
-								<p id="searchTime">About {this.state.resList.length} results ({this.state.time} seconds)</p>
-								<span className="searchTip">Did you mean?</span>
-								<br/>
-								<span className="promptWords">{this.state.correct}</span>
+								<p id="searchTime">About {this.state.resList.length||''} results ({this.state.time} seconds)</p>
+								{this.tip()}
 								<hr></hr>
 								<Results data={this.state.resList}/>
 							</div>
@@ -112,8 +121,20 @@
 			onChange:function(event){
 				this.setState({input:event.target.value});
 			},
+			rowClick:function(){
+				this.props.runSearch(this.state.input);
+			},
 			render: function(){
-				return(<input className='initWords' type="text" onKeyDown={this.onKeyDown} onChange={this.onChange}/>);
+				return(
+					<div className="searchInputWrapper">
+						<div id="keywordsInput">
+							<input className='initWords' type="text" onKeyDown={this.onKeyDown} onChange={this.onChange} autofocus='autofocus'/>
+						</div>
+						<div className='buttonsWrapper'>
+							<input className="myBtn" type="button" value="Row" onClick={this.rowClick}/>
+						</div>
+					</div>
+				);
 			}
 		});
 
