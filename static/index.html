@@ -132,7 +132,7 @@
 								</div>
 							</div>
 							<div className="resultList">
-								<p id="searchTime">About {this.state.resList.length||''} results ({this.state.time} seconds)</p>
+								<p id="searchTime">{this.state.resList>0?"About "+this.state.resList.length+" results ":"None "}({this.state.time} seconds)</p>
 								{this.tip()}
 								<hr></hr>
 								<Results data={data}/>
@@ -174,8 +174,8 @@
 					url:"http://api.bing.net/osjson.aspx?query=" + encodeURIComponent(value) + "&mkt=en-us&JsonType=callback&JsonCallback=?",
 					dataType: "jsonp",
 					success:function(data){
+						console.log(JSON.stringify(data[1]));
 						this.setState({suggestion:data[1].splice(0,5)});
-						console.log(this.state.suggestion);
 					}.bind(this)
 				});
 			},
