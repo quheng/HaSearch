@@ -30,7 +30,7 @@
 						this.props.data.map(function(value,i){
 							return(
 								<li key={i}>
-									<a href={"static/Reuters/"+value+".html"}  target="_blank">{value}</a>
+									<a href={"static/Reuters/"+value+".html"}	target="_blank">{value}</a>
 								</li>
 							);
 						})
@@ -128,7 +128,7 @@
 									<img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/>
 								</div>
 								<div id='another'>
-									<AutoSuggest runSearch={this.runSearch}  input={this.state.input} foucus='false'/>
+									<AutoSuggest runSearch={this.runSearch}	input={this.state.input} foucus='false'/>
 								</div>
 							</div>
 							<div className="resultList">
@@ -154,6 +154,25 @@
 				}
 			}
 		});
+		function shuffle(array) {
+			console.log('hh');
+			var currentIndex = array.length, temporaryValue, randomIndex;
+
+			// While there remain elements to shuffle...
+			while (0 !== currentIndex) {
+
+				// Pick a remaining element...
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
+
+				// And swap it with the current element.
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
+
+			return array;
+		}
 		var AutoSuggest = React.createClass({
 			getInitialState:function(){
 				return{
@@ -174,8 +193,8 @@
 					url:"http://api.bing.net/osjson.aspx?query=" + encodeURIComponent(value) + "&mkt=en-us&JsonType=callback&JsonCallback=?",
 					dataType: "jsonp",
 					success:function(data){
-						console.log(JSON.stringify(data[1]));
-						this.setState({suggestion:data[1].splice(0,5)});
+						console.log(JSON.stringify(shuffle(data[1])));
+						this.setState({suggestion:shuffle(data[1]).splice(0,5)});
 					}.bind(this)
 				});
 			},
