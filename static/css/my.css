@@ -55,6 +55,18 @@ input::-webkit-calendar-picker-indicator {
 }
 .resultFrame{
 }
+.resultList ul{
+	list-style-type:none;
+	font-size: 18px;
+	padding-left: 10px; 
+}
+.resultList span{
+	font-size: 14px;
+	color: black;
+}
+.resultList em{
+	font-weight: bold;
+}
 .searchBar{
 	min-width:600px;
 	background-color: #f1f1f1;

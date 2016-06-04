@@ -28,16 +28,54 @@
 
 		var Results = React.createClass({
 			render: function(){
+				var input = this.props.input;
 				return(
-					<ul>{
+					<ul className="ResultsList">{
 						this.props.data.map(function(value,i){
 							return(
-								<li key={i}>
-									<a href={"static/Reuters/"+value+".html"}	target="_blank">{value}</a>
+								<li key={i} >
+									<a href={"static/Reuters/"+value+".html"} target="_blank">{value}</a>
+									<Abstract input={input} num={value}/>
 								</li>
 							);
 						})
 					}</ul>
+				);
+			}
+		});
+
+		var Abstract = React.createClass({
+			getInitialState:function(){
+				return({abs:'',title:''});
+			},
+			componentWillMount:function(){
+				var url = "static/Reuters/"+this.props.num+".html";
+				var input = this.props.input;
+				$.get(url).done(function(res){
+					var regx = new RegExp("[^.]*"+ input +"[^.]*\.","g");
+					var matches = [], found;
+
+					while(found = regx.exec(res)){
+						matches.push(found[0]);
+					}
+					console.log(matches);
+					var abs = matches.map(function(val){
+						var tmp = val.split(input);
+						return(
+							<span key={val}>
+								{tmp[0]}<em>{input}</em>{tmp[1]}
+							</span>
+						);
+					});
+					//var abs = text.replace(new RegExp(input,'g'),"<em>"+input+"<em/>");
+					this.setState({abs:abs});
+				}.bind(this))
+			},
+			render:function(){
+				return(
+					<div>
+						{this.state.abs}
+					</div>
 				);
 			}
 		});
@@ -138,7 +176,7 @@
 								<p id="searchTime">{this.state.resList.length>0?"About "+this.state.resList.length+" results ":"None "}({this.state.time} seconds)</p>
 								{this.tip()}
 								<hr></hr>
-								<Results data={data}/>
+								<Results data={data} input={this.state.orig}/>
 								<hr></hr>
 								<div className="resultChose">
 									{
@@ -158,7 +196,6 @@
 			}
 		});
 		function shuffle(array) {
-			console.log('hh');
 			var currentIndex = array.length, temporaryValue, randomIndex;
 
 			// While there remain elements to shuffle...
