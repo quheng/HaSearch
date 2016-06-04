@@ -132,7 +132,7 @@
 								</div>
 							</div>
 							<div className="resultList">
-								<p id="searchTime">{this.state.resList>0?"About "+this.state.resList.length+" results ":"None "}({this.state.time} seconds)</p>
+								<p id="searchTime">{this.state.resList.length>0?"About "+this.state.resList.length+" results ":"None "}({this.state.time} seconds)</p>
 								{this.tip()}
 								<hr></hr>
 								<Results data={data}/>
