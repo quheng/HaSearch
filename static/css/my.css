@@ -1,9 +1,11 @@
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
 #container{
 
 }
 #another{
-	padding-left:100px;
-	width:650px;
+	width:500px;
 }
 #keywordsInput{
 	width: 80%;
@@ -54,6 +56,7 @@
 .resultFrame{
 }
 .searchBar{
+	min-width:600px;
 	background-color: #f1f1f1;
 }
 .smLogo{

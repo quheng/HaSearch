@@ -4,6 +4,7 @@
 <head>
 	<title>HaSearch</title>
 	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- CSS -->
 	<link href="static/css/my.css" rel='stylesheet' type='text/css' />
@@ -57,7 +58,6 @@
 				$.get('/api/correctsearch?words='+base64).done(
 					function(res){
 						var endT = new Date();
-						//console.log(res);
 						if(res.status===1){
 							this.setState({correct:res.query});
 						}else {
@@ -124,6 +124,9 @@
 					return(
 						<div className="resultFrame">
 							<div className="searchBar">
+								<div>
+									<img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/>
+								</div>
 								<div id='another'>
 									<AutoSuggest runSearch={this.runSearch}  input={this.state.input} foucus='false'/>
 								</div>
@@ -160,35 +163,9 @@
 					suggestion:[]
 				};
 			},
-			changeChs:function(chs){
-				var old = this.state.num;
-				if(old===0){
-					this.setState({num:chs,input:this.state.suggestion[chs-1],org:this.state.input});//store
-				}else if(chs===0){
-					this.setState({num:chs,input:this.state.org});//recover
-				}else{
-					this.setState({num:chs,input:this.state.suggestion[chs-1]});//change
-				}
-			},
 			onKeyDown:function(event){
-				var len = this.state.suggestion.length;
-				var chs = this.state.num;
 				if(event.keyCode===13){
 					this.props.runSearch(this.state.input);
-				}else if(event.keyCode===40){//down
-					if(chs===len){
-						chs = 0;
-					}else{
-						chs = chs + 1;
-					}
-					this.changeChs(chs);
-				}else if(event.keyCode===38){//up
-					if(chs===0){
-						chs = len;
-					}else{
-						chs = chs - 1;
-					}
-					this.changeChs(chs);
 				}
 			},
 			getSuggestion:function(value){
@@ -217,46 +194,24 @@
 			},
 			mouseOver:function(i){
 				this.setState({num:i+1});
-				this.changeChs(i+1);
 			},
 			genSug:function(){
-				var that = this;
-				if(this.state.suggestion.length!==0){
-					return(
-						<div className="suggestWrapper">
-							<ul id="suggestList">
-								{
-									this.state.suggestion.map(function(text,i){
-										if(that.state.num===i+1){
-											return(
-												<li className="suggestItem" id="chosedItem" key={text+i} onClick={that.clickSuggest.bind(null,text)} onMouseOver={that.mouseOver.bind(null,i)}>
-													{text}
-												</li>
-											);									
-										}else{
-											return(
-												<li className="suggestItem" key={text+i} onClick={that.clickSuggest.bind(null,text)} onMouseOver={that.mouseOver.bind(null,i)}>
-													{text}
-												</li>
-											);	
-										}
-									})
-								}
-							</ul>
-						</div>
-					);
-				}
+				return(this.state.suggestion.map(function(val){
+					return(<option value={val} key={val}></option>);
+				}));
 			},
 			render: function(){
 				return(
 					<div className="searchInputWrapper">
 						<div id="keywordsInput">
-							<input className='initWords' type="text" onKeyDown={this.onKeyDown} value={this.state.input} onChange={this.onChange} autoFocus={this.props.focus}/>
+							<input className='initWords' type="text" onKeyDown={this.onKeyDown} value={this.state.input} onChange={this.onChange} autoFocus={this.props.focus} id="suggest" list="json-datalist"/>
+							<datalist id="json-datalist">
+								{this.genSug()}
+							</datalist>
 						</div>
 						<div className='buttonsWrapper'>
-							<input className="myBtn" type="button" value="Row" onClick={this.rowClick}/>
+							<input className="myBtn" type="button" value="Row" onClick={this.rowClick} />
 						</div>
-						{this.genSug()}
 					</div>
 				);
 			}
