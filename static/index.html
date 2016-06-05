@@ -66,15 +66,14 @@
 					while(found = regx.exec(res)){
 						matches.push(found[0]);
 					}
-					var abs = matches.map(function(val){
+					var abs = matches.splice(0,3).map(function(val){
 						var tmp = val.split(input);
 						return(
 							<span key={val} escape="false">
-								{encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])}
+								{encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])+'... '}
 							</span>
 						);
 					});
-					console.log(abs);
 					this.setState({abs:abs});
 				}.bind(this))
 			},
