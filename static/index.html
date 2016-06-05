@@ -74,7 +74,9 @@
 							</span>
 						);
 					});
-					this.setState({abs:abs});
+					if(this.isMounted()){
+						this.setState({abs:abs});
+					}
 				}.bind(this))
 			},
 			render:function(){
@@ -182,7 +184,7 @@
 								<p id="searchTime">{this.state.resList.length>0?"About "+this.state.resList.length+" results ":"None "}({this.state.time} seconds)</p>
 								{this.tip()}
 								<hr></hr>
-								<Results data={data} input={this.state.orig}/>
+								<Results data={data} input={this.state.correct===''?this.state.orig:this.state.correct}/>
 								<hr></hr>
 								<div className="resultChose">
 									{
@@ -240,7 +242,8 @@
 					dataType: "jsonp",
 					success:function(data){
 						console.log(JSON.stringify(shuffle(data[1])));
-						this.setState({suggestion:shuffle(data[1]).splice(0,5)});
+						if(this.isMounted())
+							this.setState({suggestion:shuffle(data[1]).splice(0,5)});
 					}.bind(this)
 				});
 			},
