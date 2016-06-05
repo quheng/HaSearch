@@ -48,9 +48,17 @@
 			getInitialState:function(){
 				return({abs:'',title:''});
 			},
+			encodeHtml: function(s){
+			  return (typeof s != "string") ? s :
+				s.replace(/&lt;/g,
+							function($0){
+								return("\<");
+							});
+			},
 			componentWillMount:function(){
 				var url = "static/Reuters/"+this.props.num+".html";
 				var input = this.props.input;
+				var encodeHtml = this.encodeHtml;
 				$.get(url).done(function(res){
 					var regx = new RegExp("[^.]*"+ input +"[^.]*\.","g");
 					var matches = [], found;
@@ -62,7 +70,7 @@
 						var tmp = val.split(input);
 						return(
 							<span key={val} escape="false">
-								{tmp[0]}<em>{input}</em>{tmp[1]}
+								{encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])}
 							</span>
 						);
 					});
