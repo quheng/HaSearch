@@ -1,3 +1,6 @@
+#support and not or , consider not as a binary operation
+#you can input 'school AND teacher OR student NOT you' to search documents have both 'school' and 'teacher', or 'student', which don't have 'you'
+
 class boolsearch:
     def __init__(self):
         # initialize 
