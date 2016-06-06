@@ -1,12 +1,12 @@
 class boolsearch:
-    def __init__(self, entry):
+    def __init__(self):
         # initialize 
-        self.entry = entry
         import index
         self.inverse_index = index.index
 
-    def search(self):
+    def search(self, entry):
         #main bool search, return the final result
+        self.entry = entry
         def BSAND(list1, list2):
             #calculate two word on the AND operation
             i = 0
