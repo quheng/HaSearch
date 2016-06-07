@@ -57,7 +57,7 @@
 			},
 			componentWillMount:function(){
 				var url = "static/Reuters/"+this.props.num+".html";
-				var input = this.props.input;
+				var input = this.props.input.replace(/(^\s+)|(\s+$)/g,'');
 				var encodeHtml = this.encodeHtml;
 
 				var arr;
@@ -116,6 +116,7 @@
 				}
 			},
 			runSearch: function(input){
+				input = input.replace(/(^\s+)|(\s+$)/g,'');
 				var base64 = btoa(input);
 				var beginT = new Date(); 
 				$.get('/api/correctsearch?words='+base64).done(
