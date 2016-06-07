@@ -59,18 +59,32 @@
 				var url = "static/Reuters/"+this.props.num+".html";
 				var input = this.props.input;
 				var encodeHtml = this.encodeHtml;
+
+				var arr;
+				if(input.indexOf(' AND ')>-1 || input.indexOf(' OR ')>-1)
+					arr = input.replace(/\s+(AND|OR)\s+/g,'|');
+				else
+					arr = input.replace(/\s/g,'|');
+
+				var regx2 = new RegExp(arr,'gi');
+
+				console.log(arr);
+
 				$.get(url).done(function(res){
-					var regx = new RegExp("[^.]*"+ input +"[^.]*\.","g");
+					var regx = new RegExp("[^.]*("+ arr +")[^.]*\.","g");
 					var matches = [], found;
 
 					while(found = regx.exec(res)){
 						matches.push(found[0]);
 					}
+
 					var abs = matches.splice(0,3).map(function(val){
-						var tmp = val.split(input);
+						val = val.replace(regx2,'<em>$&</em>');
 						return(
 							<span key={val} escape="false">
-								{encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])+'... '}
+								{//encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])+'... '
+									<div dangerouslySetInnerHTML={{__html: val}} />
+								}
 							</span>
 						);
 					});
@@ -241,7 +255,7 @@
 					url:"http://api.bing.net/osjson.aspx?query=" + encodeURIComponent(value) + "&mkt=en-us&JsonType=callback&JsonCallback=?",
 					dataType: "jsonp",
 					success:function(data){
-						console.log(JSON.stringify(shuffle(data[1])));
+						// console.log(JSON.stringify(shuffle(data[1])));
 						if(this.isMounted())
 							this.setState({suggestion:shuffle(data[1]).splice(0,5)});
 					}.bind(this)
