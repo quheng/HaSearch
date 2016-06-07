@@ -14,7 +14,7 @@ class boolsearch:
             #calculate two word on the AND operation
             i = 0
             j = 0
-            while i < len(list1) && j <len(list2):
+            while i < len(list1) and j <len(list2):
             	if list1[i]["doc"] == list2[j]["doc"]:
             		result.append(list1[i])
             		i = i + 1
@@ -30,7 +30,7 @@ class boolsearch:
             #calculate two word on the OR operation
             i = 0
             j = 0
-            while i < len(list1) || j <len(list2):
+            while i < len(list1) or j <len(list2):
             	if list1[i]["doc"] == list2[j]["doc"]:
             		result.append(list1[i])
             		i = i + 1
@@ -46,7 +46,7 @@ class boolsearch:
 
         def BSNOT(list1, list2):
         	#calculate two word on the NOT operation
-        	while i < len(list1) || j <len(list2):
+        	while i < len(list1) or j <len(list2):
             	if list1[i]["doc"] == list2[j]["doc"]:
             		i = i + 1
             		j = j + 1
