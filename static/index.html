@@ -68,7 +68,7 @@
 
 				var regx2 = new RegExp(arr,'gi');
 
-				console.log(arr);
+				//console.log(arr);
 
 				$.get(url).done(function(res){
 					var regx = new RegExp("[^.]*("+ arr +")[^.]*\.","g");
@@ -77,17 +77,25 @@
 					while(found = regx.exec(res)){
 						matches.push(found[0]);
 					}
+					var abs;
+					if(matches.length === 0){
+						var pat = /[^a-z]+/g;
+						var title = pat.exec(res);
+						matches.push(title);
+						abs = <span escape="false">{<div dangerouslySetInnerHTML={{__html: title}} />}</span>
+					}else{
+						abs = matches.splice(0,3).map(function(val){
+							val = val.replace(regx2,'<em>$&</em>');
+							return(
+								<span key={val} escape="false">
+									{//encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])+'... '
+										<div dangerouslySetInnerHTML={{__html: val}} />
+									}
+								</span>
+							);
+						});						
+					}
 
-					var abs = matches.splice(0,3).map(function(val){
-						val = val.replace(regx2,'<em>$&</em>');
-						return(
-							<span key={val} escape="false">
-								{//encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])+'... '
-									<div dangerouslySetInnerHTML={{__html: val}} />
-								}
-							</span>
-						);
-					});
 					if(this.isMounted()){
 						this.setState({abs:abs});
 					}
@@ -134,7 +142,7 @@
 				if(this.state.stage==='prepare'){
 					this.setState({stage:'show',input:input});
 				}
-				this.setState({orig:input});
+				this.setState({orig:input,chose:1});
 			},
 			orgSearch: function(){
 				var base64 = btoa(this.state.orig);
@@ -257,14 +265,19 @@
 					dataType: "jsonp",
 					success:function(data){
 						// console.log(JSON.stringify(shuffle(data[1])));
-						if(this.isMounted())
-							this.setState({suggestion:shuffle(data[1]).splice(0,5)});
+						if(this.isMounted()){
+							var tip = data[1].filter(function(it){
+								return it.indexOf(' ')<0;
+							});
+							console.log(data);
+							this.setState({suggestion:shuffle(tip).splice(0,5)});
+						}
 					}.bind(this)
 				});
 			},
 			onChange:function(event){
 				var newval = event.target.value;
-				if(newval.length>2){
+				if(newval.length>1){
 					this.getSuggestion(newval);
 				}
 				this.setState({input:newval});
