@@ -1,4 +1,6 @@
 import math
+import nltk
+
 class VSM:
     Lengths = {}
     inverse_index = {}
@@ -15,6 +17,7 @@ class VSM:
     def __init__(self, Number=21576):
         # initialize using the inverse index, and total documents number.
         self.N = Number
+        self.stemmer = nltk.PorterStemmer()
         import index
         self.inverse_index = index.index
         for word in self.inverse_index:
@@ -31,6 +34,7 @@ class VSM:
         queryWords = query.split(" ")
         Scores = {}
         for word in queryWords:
+            word = self.stemmer.stem(word)
             if word in self.inverse_index:
                 for record in self.inverse_index[word]:
                     if record["doc"] in Scores:

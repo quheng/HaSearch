@@ -8,10 +8,14 @@ import sys
 import os
 import base64
 
-from algorithm import VSM
+
 from algorithm import correct
+from algorithm import VSM
+from algorithm import BS
+
 
 vsm = VSM.VSM(21576)
+bs = BS.boolsearch()
 app = Flask(__name__)
 
 @app.route('/')
@@ -34,11 +38,26 @@ def correctwords():
     else:
         abort(400)
 
+def __search(query, K):
+    flag = False     # 0 is bs
+    for logical in bs.logical_words:
+        if query.find(logical) > -1:
+            flag = True
+            break
+
+    if flag:
+        print "bs"
+        return bs.search(query, K)
+    else:
+        print "vsm"
+        return vsm.search(query, K)
+
 @app.route('/api/correctsearch', methods = ['GET'])
 def correctSearch():
     original = request.args.get('words')
+    K = 100
     words = base64.b64decode(original).split(' ')
-    status = 0       # status = 1 means that the words has has some errors
+    status = 0                                      # status = 1 means that the words has has some errors
 
     query = []
     for word in words:
@@ -49,7 +68,7 @@ def correctSearch():
             query.append(result)
 
     query = ' '.join(query)
-    result = vsm.search(query, 100)
+    result = __search(query, 100)
     res = {}
     res["status"] = status
     res["query"] = query
@@ -60,9 +79,13 @@ def correctSearch():
 @app.route('/api/search', methods = ['GET'])
 def searchwords():
     words = request.args.get('words')
-    query = base64.b64decode(words).split(' ')
-    query = ' '.join(query)
-    result = vsm.search(query, 100)
+    query = base64.b64decode(words)
+    K = 100
+    result = __search(query, K)
     res = {}
     res["result"] = result
     return jsonify(res)
+
+if __name__ == "__main__":
+    print vsm.search("query", 100)
+

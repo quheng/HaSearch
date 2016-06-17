@@ -5,8 +5,12 @@ import os
 import cPickle
 import re
 import gzip
+import nltk
+from nltk.tokenize import wordpunct_tokenize 
+
 
 def build(path):
+    stemmer = nltk.PorterStemmer()
     postfix = re.compile(r"\.(\w+)$")
     name = re.compile(r"(\w+)\.\w+$")
     inverse_index = {}
@@ -17,16 +21,20 @@ def build(path):
                 continue
             filepath = dirpath + filename
             f = open(filepath, 'r')
-            words = f.read().split(' ')
+            words = wordpunct_tokenize(f.read())
             index = {}
             for word in words:
                 word = word.strip(' ,\n')
-                if not word:
+                try:
+                    word = stemmer.stem(word)
+                    if not word:
+                        continue
+                    if word in index:
+                        index[word] += 1
+                    else:
+                        index[word] = 1
+                except Exception, e:
                     continue
-                if word in index:
-                    index[word] += 1
-                else:
-                    index[word] = 1
             for item in index:
                 new_item = {}
                 new_item["doc"] = name.findall(filename)[0]
@@ -41,3 +49,4 @@ if __name__ == "__main__":
     inverse_index = build(r"../data/")
     # cPickle.dump(inverse_index, gzip.open("inverse_index.p", "wb"))
     cPickle.dump(inverse_index, open("inverse_index.p", "wb"))
+
