@@ -36,7 +36,7 @@ class boolsearch:
                     j = j + 1
         return result
 
-    def search(self, entry, K):
+    def search(self, entry, k):
         #main bool search, return the final result
         self.entry = entry
         text = self.entry.split(" ")
@@ -56,9 +56,10 @@ class boolsearch:
                         result = self._BSOR(result, result2)
                     if logic == "'NOT'":
                         result = self._BSNOT(result, result2)
-        if K > len(result):
-            K = len(result)
-        return result
+        if k > len(result):
+            k = len(result)
+        print k
+        return result[:k]
 
 if __name__ == '__main__':
     bs = boolsearch()

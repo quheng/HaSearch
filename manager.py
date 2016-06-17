@@ -46,29 +46,30 @@ def __search(query, K):
             break
 
     if flag:
-        print "bs"
         return bs.search(query, K)
     else:
-        print "vsm"
         return vsm.search(query, K)
 
 @app.route('/api/correctsearch', methods = ['GET'])
 def correctSearch():
     original = request.args.get('words')
-    K = 100
+    K = int(request.args.get('k'))
     words = base64.b64decode(original).split(' ')
     status = 0                                      # status = 1 means that the words has has some errors
 
     query = []
     for word in words:
         if word is not None:
-            result = correct.correct(word)
-            if (word != result):
-                status = 1
-            query.append(result)
+            if word not in bs.logical_words:
+                result = correct.correct(word)
+                if (word != result):
+                    status = 1
+                query.append(result)
+            else:
+                query.append(word)
 
     query = ' '.join(query)
-    result = __search(query, 100)
+    result = __search(query, K)
     res = {}
     res["status"] = status
     res["query"] = query
@@ -80,7 +81,7 @@ def correctSearch():
 def searchwords():
     words = request.args.get('words')
     query = base64.b64decode(words)
-    K = 100
+    K = int(request.args.get('k'))
     result = __search(query, K)
     res = {}
     res["result"] = result

@@ -31,6 +31,8 @@ class VSM:
 
     def search(self, query, K=21576):
         # input a query and disired number of top results. ouput a array of docID
+        if K < 1:
+            K = 21576
         queryWords = query.split(" ")
         Scores = {}
         for word in queryWords:
