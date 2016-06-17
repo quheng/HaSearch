@@ -26,6 +26,8 @@
 		'usestrict';
 		const enterKeycode = 13;
 
+		var print = console.log;
+
 		var Results = React.createClass({
 			render: function(){
 				var input = this.props.input;
@@ -120,14 +122,21 @@
 					time:0,
 					resList:[],
 					orig:'',
-					show:true
+					show:true,
+					k:''
 				}
 			},
-			runSearch: function(input){
+			runSearch: function(input,kk){
 				input = input.replace(/(^\s+)|(\s+$)/g,'');
 				var base64 = btoa(input);
 				var beginT = new Date(); 
-				$.get('/api/correctsearch?words='+base64).done(
+				var url;
+				if(/[0-9]+/.test(kk))
+					url = '/api/correctsearch?words='+base64+'&k='+kk;
+				else
+					url = '/api/correctsearch?words='+base64+'&k=-1';
+				console.log(url);
+				$.get(url).done(
 					function(res){
 						var endT = new Date();
 						if(res.status===1){
@@ -142,7 +151,7 @@
 				if(this.state.stage==='prepare'){
 					this.setState({stage:'show',input:input});
 				}
-				this.setState({orig:input,chose:1});
+				this.setState({orig:input,chose:1,k:kk});
 			},
 			orgSearch: function(){
 				var base64 = btoa(this.state.orig);
@@ -180,7 +189,7 @@
 							<div className="firstLogoDiv">
 								<img className="firstLogo" src="static/images/logo.jpg" alt="HaSearch"/>
 							</div>
-							<AutoSuggest runSearch={this.runSearch} input={this.state.input} focus='true'/>
+							<AutoSuggest runSearch={this.runSearch} input={this.state.input} k={this.state.k} focus='true'/>
 						</div>
 					);
 				}else{
@@ -200,7 +209,7 @@
 									<img className="smLogo" src="static/images/smLogo.png" alt="HaSearch"/>
 								</div>
 								<div id='another'>
-									<AutoSuggest runSearch={this.runSearch}	input={this.state.input} foucus='false'/>
+									<AutoSuggest runSearch={this.runSearch}	input={this.state.input} k={this.state.k} foucus='false'/>
 								</div>
 							</div>
 							<div className="resultList">
@@ -250,7 +259,8 @@
 					input:this.props.input,
 					num:0,
 					org:'',
-					suggestion:[]
+					suggestion:[],
+					k:this.props.k
 				};
 			},
 			onKeyDown:function(event){
@@ -282,11 +292,15 @@
 				}
 				this.setState({input:newval});
 			},
+			enterK:function(event){
+				var newval = event.target.value;
+				this.setState({k:newval});
+			},
 			rowClick:function(){
-				this.props.runSearch(this.state.input);
+				this.props.runSearch(this.state.input,this.state.k);
 			},
 			clickSuggest:function(text){
-				this.props.runSearch(text);
+				this.props.runSearch(text,k);
 			},
 			mouseOver:function(i){
 				this.setState({num:i+1});
@@ -306,7 +320,7 @@
 							</datalist>
 						</div>
 						<div id="topkInput">
-							<input className="tkin" placeholder="top k"></input>
+							<input className="tkin" placeholder="top k" onChange={this.enterK} value={this.state.k}></input>
 						</div>
 						<div className='buttonsWrapper'>
 							<input className="myBtn" type="button" value="Row" onClick={this.rowClick} />
