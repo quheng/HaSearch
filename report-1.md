@@ -4,7 +4,7 @@
 + python 2.7
 + Flask 0.10.1
 + Jinja2 3.2.1
-+ ntlk 3.2.1
++ nltk 3.2.1
 
 ## 启动方法
 1. 打开app.py
