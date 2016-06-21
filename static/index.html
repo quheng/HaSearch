@@ -63,14 +63,14 @@
 				var encodeHtml = this.encodeHtml;
 
 				var arr;
-				if(input.indexOf(' AND ')>-1 || input.indexOf(' OR ')>-1)
-					arr = input.replace(/\s+(AND|OR)\s+/g,'|');
+				if(input.indexOf(" 'AND' ")>-1 || input.indexOf(" 'OR' ")>-1)
+					arr = input.replace(/\s+('AND'|'OR')\s+/g,'|');
 				else
 					arr = input.replace(/\s/g,'|');
 
 				var regx2 = new RegExp(arr,'gi');
 
-				//console.log(arr);
+				console.log(arr);
 
 				$.get(url).done(function(res){
 					var regx = new RegExp("[^.]*("+ arr +")[^.]*\.","g");
@@ -84,14 +84,14 @@
 						var pat = /[^a-z]+/g;
 						var title = pat.exec(res);
 						matches.push(title);
-						abs = <span escape="false">{<div dangerouslySetInnerHTML={{__html: title}} />}</span>
+						abs = <span escape="false">{<span dangerouslySetInnerHTML={{__html: title}} />}</span>
 					}else{
 						abs = matches.splice(0,3).map(function(val){
 							val = val.replace(regx2,'<em>$&</em>');
 							return(
 								<span key={val} escape="false">
 									{//encodeHtml(tmp[0])}<em>{input}</em>{encodeHtml(tmp[1])+'... '
-										<div dangerouslySetInnerHTML={{__html: val}} />
+										<span dangerouslySetInnerHTML={{__html: val}} />
 									}
 								</span>
 							);
@@ -135,7 +135,7 @@
 					url = '/api/correctsearch?words='+base64+'&k='+kk;
 				else
 					url = '/api/correctsearch?words='+base64+'&k=-1';
-				console.log(url);
+				//console.log(url);
 				$.get(url).done(
 					function(res){
 						var endT = new Date();
@@ -279,7 +279,7 @@
 							var tip = data[1].filter(function(it){
 								return it.indexOf(' ')<0;
 							});
-							console.log(data);
+							//console.log(data);
 							this.setState({suggestion:shuffle(tip).splice(0,5)});
 						}
 					}.bind(this)
