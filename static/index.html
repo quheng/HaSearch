@@ -135,7 +135,7 @@
 					url = '/api/correctsearch?words='+base64+'&k='+kk;
 				else
 					url = '/api/correctsearch?words='+base64+'&k=-1';
-				//console.log(url);
+				console.log(input);
 				$.get(url).done(
 					function(res){
 						var endT = new Date();
@@ -265,7 +265,7 @@
 			},
 			onKeyDown:function(event){
 				if(event.keyCode===13){
-					this.props.runSearch(this.state.input);
+					this.props.runSearch(this.state.input,this.state.k);
 				}
 			},
 			getSuggestion:function(value){
@@ -300,7 +300,7 @@
 				this.props.runSearch(this.state.input,this.state.k);
 			},
 			clickSuggest:function(text){
-				this.props.runSearch(text,k);
+				this.props.runSearch(text,this.state.k);
 			},
 			mouseOver:function(i){
 				this.setState({num:i+1});
